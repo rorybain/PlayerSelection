@@ -1,4 +1,4 @@
-// MARK: - Mocks generated from file: PlayerSelection/Modules/Cards/Wireframe/CardsWireframe.swift at 2017-08-03 17:45:31 +0000
+// MARK: - Mocks generated from file: PlayerSelection/Modules/Cards/Wireframe/CardsWireframe.swift at 2017-08-03 19:03:23 +0000
 
 //
 //  CardsWireframe.swift
@@ -161,7 +161,7 @@ class MockCardsWireframe: CardsWireframe, Cuckoo.Mock {
 
 
 
-// MARK: - Mocks generated from file: PlayerSelection/Modules/Cards/ViewModel/CardsViewModel.swift at 2017-08-03 17:45:31 +0000
+// MARK: - Mocks generated from file: PlayerSelection/Modules/Cards/ViewModel/CardsViewModel.swift at 2017-08-03 19:03:23 +0000
 
 //
 //  CardsViewModel.swift
@@ -320,7 +320,7 @@ class MockCardsViewModel: CardsViewModel, Cuckoo.Mock {
 
 
 
-// MARK: - Mocks generated from file: PlayerSelection/Common/WebServices/PlayerWebService.swift at 2017-08-03 17:45:31 +0000
+// MARK: - Mocks generated from file: PlayerSelection/Common/WebServices/PlayerWebService.swift at 2017-08-03 19:03:23 +0000
 
 //
 //  PlayerWebService.swift
@@ -509,7 +509,7 @@ class MockPlayerWebService: PlayerWebService, Cuckoo.Mock {
 
 
 
-// MARK: - Mocks generated from file: PlayerSelection/Modules/Cards/View/CardsViewController.swift at 2017-08-03 17:45:31 +0000
+// MARK: - Mocks generated from file: PlayerSelection/Modules/Cards/View/CardsViewController.swift at 2017-08-03 19:03:23 +0000
 
 //
 //  CardsViewController.swift
@@ -625,6 +625,18 @@ class MockCardsViewController: CardsViewController, Cuckoo.Mock {
         
     }
     
+     override func didTapCard(_ card: CardView)  {
+        
+        return cuckoo_manager.call("didTapCard(_: CardView)",
+            parameters: (card),
+            original: observed.map { o in
+                return { (card: CardView) in
+                    o.didTapCard(card)
+                }
+            })
+        
+    }
+    
 
     struct __StubbingProxy_CardsViewController: Cuckoo.StubbingProxy {
         private let cuckoo_manager: Cuckoo.MockManager
@@ -641,6 +653,11 @@ class MockCardsViewController: CardsViewController, Cuckoo.Mock {
         func viewDidLoad() -> Cuckoo.StubNoReturnFunction<()> {
             let matchers: [Cuckoo.ParameterMatcher<Void>] = []
             return .init(stub: cuckoo_manager.createStub("viewDidLoad()", parameterMatchers: matchers))
+        }
+        
+        func didTapCard<M1: Cuckoo.Matchable>(_ card: M1) -> Cuckoo.StubNoReturnFunction<(CardView)> where M1.MatchedType == CardView {
+            let matchers: [Cuckoo.ParameterMatcher<(CardView)>] = [wrap(matchable: card) { $0 }]
+            return .init(stub: cuckoo_manager.createStub("didTapCard(_: CardView)", parameterMatchers: matchers))
         }
         
     }
@@ -670,6 +687,12 @@ class MockCardsViewController: CardsViewController, Cuckoo.Mock {
             return cuckoo_manager.verify("viewDidLoad()", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
         }
         
+        @discardableResult
+        func didTapCard<M1: Cuckoo.Matchable>(_ card: M1) -> Cuckoo.__DoNotUse<Void> where M1.MatchedType == CardView {
+            let matchers: [Cuckoo.ParameterMatcher<(CardView)>] = [wrap(matchable: card) { $0 }]
+            return cuckoo_manager.verify("didTapCard(_: CardView)", callMatcher: callMatcher, parameterMatchers: matchers, sourceLocation: sourceLocation)
+        }
+        
     }
 
 
@@ -691,6 +714,10 @@ class MockCardsViewController: CardsViewController, Cuckoo.Mock {
 
     
      override func viewDidLoad()  {
+        return DefaultValueRegistry.defaultValue(for: Void.self)
+    }
+    
+     override func didTapCard(_ card: CardView)  {
         return DefaultValueRegistry.defaultValue(for: Void.self)
     }
     
