@@ -1,2 +1,1 @@
-# PlayerSelection
-FanDuel take home
+Select players game written in Swift
