@@ -10,7 +10,7 @@ import UIKit
 
 struct CardsModule {
 
-    static func make() -> UIViewController {
+    static func make(currentGame: CardGame? = nil) -> UIViewController {
         let viewController = CardsViewController()
 
         let wireframe = CardsWireframe()
@@ -18,11 +18,15 @@ struct CardsModule {
 
         let playerService = PlayerWebService()
 
-        let viewModel = CardsViewModel(view: viewController, wireframe: wireframe, playerService: playerService)
+        let viewModel = CardsViewModel(view: viewController,
+                                       wireframe: wireframe,
+                                       playerService: playerService)
 
+        viewModel.currentGame = currentGame
+        wireframe.viewModel = viewModel
         viewController.viewModel = viewModel
-
+        
         return viewController
     }
-
+    
 }

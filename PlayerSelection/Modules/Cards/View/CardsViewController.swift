@@ -9,12 +9,17 @@
 import UIKit
 
 protocol CardsViewInput: class {
-
+    var state: CardState { get set }
 }
 
-class CardsViewController: UIViewController {
+class CardsViewController: UIViewController, CardsViewInput {
 
     var viewModel: CardsViewOutput!
+    var state: CardState = .loading {
+        didSet {
+            updateAppearanceForState()
+        }
+    }
 
     fileprivate let questionContainer = UIView()
 
@@ -27,16 +32,15 @@ class CardsViewController: UIViewController {
         return label
     }()
 
-    fileprivate let firstCard: CardView = {
-        let card = CardView()
-        card.translatesAutoresizingMaskIntoConstraints = false
-        return card
-    }()
+    fileprivate var cardViews: [CardView] = []
 
-    fileprivate let secondCard: CardView = {
-        let card = CardView()
-        card.translatesAutoresizingMaskIntoConstraints = false
-        return card
+    fileprivate let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 20
+        return stackView
     }()
 
     fileprivate let nextButton: UIButton = {
@@ -50,6 +54,8 @@ class CardsViewController: UIViewController {
     }()
 
     fileprivate let loadingView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+
+    private var cardItems: [CardDisplayItem] = []
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -70,8 +76,17 @@ class CardsViewController: UIViewController {
         setupQuestionContainer()
         setupTitleLabel()
         setupNextButton()
-        setupFirstCard()
-        setupSecondCard()
+        setupStackView()
+        setupLoadingView()
+    }
+
+    private func setupLoadingView() {
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        loadingView.startAnimating()
+        loadingView.hidesWhenStopped = false
+        loadingView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loadingView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 
     private func setupQuestionContainer() {
@@ -91,37 +106,65 @@ class CardsViewController: UIViewController {
         nextButton.matchLeadingAndTrailing(to: questionContainer)
         nextButton.bottomAnchor.constraint(equalTo: questionContainer.bottomAnchor).isActive = true
         nextButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        nextButton.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
     }
 
-    private func setupFirstCard() {
-        firstCard.didTap = didTapCard
-        questionContainer.addSubview(firstCard)
-
-        firstCard.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20).isActive = true
-        firstCard.bottomAnchor.constraint(equalTo: nextButton.topAnchor, constant: -20).isActive = true
-        firstCard.leadingAnchor.constraint(equalTo: questionContainer.leadingAnchor, constant: 20).isActive = true
-
+    private func setupStackView() {
+        questionContainer.addSubview(stackView)
+        stackView.matchLeadingAndTrailing(to: questionContainer, inset: 20)
+        stackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: nextButton.topAnchor, constant: -20).isActive = true
     }
 
-    private func setupSecondCard() {
-        secondCard.didTap = didTapCard
-        questionContainer.addSubview(secondCard)
+    private func setupCardsInStackView(withCards cards: [CardDisplayItem]) {
+        while stackView.arrangedSubviews.count > cards.count {
+            stackView.arrangedSubviews.last?.removeFromSuperview()
+        }
 
-        firstCard.trailingAnchor.constraint(equalTo: secondCard.leadingAnchor, constant: -20).isActive = true
-        secondCard.trailingAnchor.constraint(equalTo: questionContainer.trailingAnchor, constant: -20).isActive = true
-        secondCard.topAnchor.constraint(equalTo: firstCard.topAnchor).isActive = true
-        secondCard.bottomAnchor.constraint(equalTo: firstCard.bottomAnchor).isActive = true
-        firstCard.widthAnchor.constraint(equalTo: secondCard.widthAnchor).isActive = true
+        while stackView.arrangedSubviews.count < cards.count {
+            let cardView = CardView()
+            cardViews.append(cardView)
+            cardView.didTap = didTapCard
+            stackView.addArrangedSubview(cardView)
+            cardView.matchTopAndBottom(to: stackView)
+
+            if stackView.arrangedSubviews.count > 1 {
+                stackView.arrangedSubviews[0].widthAnchor.constraint(equalTo: cardView.widthAnchor).isActive = true
+            }
+        }
+
+        cards.enumerated().forEach({ cardViews[$0.offset].displayItem = $0.element })
+    }
+
+    private func updateAppearanceForState() {
+
+        switch state {
+        case .loading:
+            loadingView.isHidden = false
+            questionContainer.isHidden = true
+            return
+
+        case .pickACard(let currentCards):
+            self.cardItems = currentCards
+            setupCardsInStackView(withCards: currentCards)
+
+        case .finished(let winLossText):
+            titleLabel.text = winLossText
+            nextButton.setTitle("Done", for: .normal)
+            nextButton.isHidden = false
+        }
+        questionContainer.isHidden = false
+        loadingView.isHidden = true
     }
 
     func didTapCard(_ card: CardView) {
-        [firstCard, secondCard].forEach { $0.isShowingResult = true }
+        cardViews.forEach { $0.isShowingResult = true }
         nextButton.isHidden = false
-        // TODO event handler
+        viewModel.didSelect(card.displayItem, from: cardItems)
     }
     
-}
-
-extension CardsViewController: CardsViewInput {
+    func nextButtonPressed() {
+        viewModel.nextButtonPressed()
+    }
     
 }

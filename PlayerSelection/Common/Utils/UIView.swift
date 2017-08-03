@@ -26,4 +26,11 @@ extension UIView {
         trailingAnchor.constraint(equalTo: otherView.trailingAnchor, constant: -inset).isActive = true
     }
 
+    func matchTopAndBottom(to otherView: UIView, inset: CGFloat = 0) {
+        translatesAutoresizingMaskIntoConstraints = false
+
+        topAnchor.constraint(equalTo: otherView.topAnchor, constant: inset).isActive = true
+        bottomAnchor.constraint(equalTo: otherView.bottomAnchor, constant: -inset).isActive = true
+    }
+
 }

@@ -11,11 +11,16 @@ import Nuke
 
 class CardView: UIView {
 
+    var displayItem: CardDisplayItem! {
+        didSet {
+            setupDisplayItem()
+        }
+    }
+
     private static let pointsCornerRadius: CGFloat = 5
 
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Steph Curry"
         label.textAlignment = .center
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -25,7 +30,6 @@ class CardView: UIView {
     private lazy var button: UIButton = {
         let button = PressableButton()
         button.backgroundColor = UIColor.black.withAlphaComponent(0.1)
-        Nuke.loadImage(with: URL(string: "https://d17odppiik753x.cloudfront.net/playerimages/nba/9589.png")!, into: button)
         return button
     }()
 
@@ -34,7 +38,7 @@ class CardView: UIView {
         pointsLabel.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         pointsLabel.textAlignment = .center
         pointsLabel.font = UIFont.systemFont(ofSize: 14)
-        pointsLabel.text = "Has a score of 30!"
+        pointsLabel.numberOfLines = 0
         pointsLabel.isHidden = true
         return pointsLabel
     }()
@@ -94,7 +98,7 @@ class CardView: UIView {
         didTap?(self)
     }
 
-    func showOrHideResults() {
+    @objc private func showOrHideResults() {
         let transitionOptions: UIViewAnimationOptions = [.transitionFlipFromRight, .showHideTransitionViews]
 
         UIView.transition(with: button, duration: 1.0, options: transitionOptions, animations: { [weak self] in
@@ -106,6 +110,14 @@ class CardView: UIView {
             guard let `self` = self else { return }
             self.pointsLabel.isHidden = !self.isShowingResult
         })
+    }
+
+    func setupDisplayItem() {
+        nameLabel.text = displayItem.name
+        pointsLabel.text = "Averages \(displayItem.points) per game"
+        if let imageURL = displayItem.imageURL {
+            Nuke.loadImage(with: imageURL, into: button)
+        }
     }
     
 }
