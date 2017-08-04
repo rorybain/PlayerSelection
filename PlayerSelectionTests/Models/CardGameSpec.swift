@@ -41,9 +41,9 @@ class CardGameSpec: QuickSpec {
             it("should iterate the played number when a non nil next round is returned") {
                 let game = CardGame()
                 game.cards = cards
-                expect(game.winLossText()).to(equal("Game complete! You guess 0 out of 0."))
+                expect(game.winLossText()).to(equal("Game complete! You guessed 0 out of 0."))
                 _ = game.nextRound()
-                expect(game.winLossText()).to(equal("Game complete! You guess 0 out of 1."))
+                expect(game.winLossText()).to(equal("Game complete! You guessed 0 out of 1."))
             }
 
             it("should not iterate the played number when a nil next round is returned") {
@@ -52,17 +52,17 @@ class CardGameSpec: QuickSpec {
                 _ = game.nextRound()
                 _ = game.nextRound()
                 _ = game.nextRound()
-                expect(game.winLossText()).to(equal("Game complete! You guess 0 out of 3."))
+                expect(game.winLossText()).to(equal("Game complete! You guessed 0 out of 3."))
                 _ = game.nextRound()
-                expect(game.winLossText()).to(equal("Game complete! You guess 0 out of 3."))
+                expect(game.winLossText()).to(equal("Game complete! You guessed 0 out of 3."))
             }
 
             it("should iterate the win number when a round is won") {
                 let game = CardGame()
                 game.cards = cards
-                expect(game.winLossText()).to(equal("Game complete! You guess 0 out of 0."))
+                expect(game.winLossText()).to(equal("Game complete! You guessed 0 out of 0."))
                 game.userPickedCorrectAnswer()
-                expect(game.winLossText()).to(equal("Game complete! You guess 1 out of 0."))
+                expect(game.winLossText()).to(equal("Game complete! You guessed 1 out of 0."))
             }
             
         }

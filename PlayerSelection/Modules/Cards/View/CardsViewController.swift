@@ -21,9 +21,9 @@ class CardsViewController: UIViewController, CardsViewInput {
         }
     }
 
-    fileprivate let questionContainer = UIView()
+    private let questionContainer = UIView()
 
-    fileprivate let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Which player do you think has more points per game?"
         label.textAlignment = .center
@@ -32,9 +32,9 @@ class CardsViewController: UIViewController, CardsViewInput {
         return label
     }()
 
-    fileprivate var cardViews: [CardView] = []
+    private var cardViews: [CardView] = []
 
-    fileprivate let stackView: UIStackView = {
+    private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -43,7 +43,7 @@ class CardsViewController: UIViewController, CardsViewInput {
         return stackView
     }()
 
-    fileprivate let nextButton: UIButton = {
+    private let nextButton: UIButton = {
         let button = PressableButton()
         button.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         button.setTitleColor(.white, for: .normal)
@@ -53,7 +53,7 @@ class CardsViewController: UIViewController, CardsViewInput {
         return button
     }()
 
-    fileprivate let loadingView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    private let loadingView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
 
     private var cardItems: [CardDisplayItem] = []
 

@@ -27,11 +27,11 @@ class CardsWireframe: CardsWireframeProtocol {
         let alert = UIAlertController(title: "Failed to get players",
                                       message: "We appear to be having some problems at the moment. Please try again.",
                                       preferredStyle: .alert)
-        let tryAgain = UIAlertAction(title: "Try Again", style: .default) { [weak self] _ in
+
+        alert.addAction(UIAlertAction(title: "Try Again", style: .default) { [weak self] _ in
             // Should really be a better error handling setup but doing this for brevity
             self?.viewModel.viewDidLoad()
-        }
-        alert.addAction(tryAgain)
+        })
         view.present(alert, animated: true, completion: nil)
     }
 

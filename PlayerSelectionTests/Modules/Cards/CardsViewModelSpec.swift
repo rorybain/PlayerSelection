@@ -137,7 +137,7 @@ class CardsViewModelSpec: QuickSpec {
 
             it("should update the correct answers when the max points item was selected") {
                 viewModel.didSelect(cardItem1, from: [cardItem1, cardItem2])
-                expect(cardGame.winLossText()).to(equal("Game complete! You guess 1 out of 0."))
+                expect(cardGame.winLossText()).to(equal("Game complete! You guessed 1 out of 0."))
             }
             
         }

@@ -16,7 +16,7 @@ protocol CardsViewOutput {
 
 class CardsViewModel {
 
-    fileprivate static let numberOfRounds = 3
+    fileprivate static let numberOfRounds = 10
     fileprivate static let cardsPerRound = 2
 
     fileprivate weak var view: CardsViewInput!
@@ -99,12 +99,11 @@ extension CardsViewModel: CardsViewOutput {
     }
 
     func didSelect(_ item: CardDisplayItem, from options: [CardDisplayItem]) {
-        if let max = options.max(by: { $1.points > $0.points }) {
-            if max === item {
-                currentGame?.userPickedCorrectAnswer()
-            }
+        guard let max = options.max(by: { $1.points > $0.points }) else { return }
+        
+        if item === max {
+            currentGame?.userPickedCorrectAnswer()
         }
-
     }
     
 }

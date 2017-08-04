@@ -1,5 +1,5 @@
 //
-//  button.swift
+//  CardView.swift
 //  PlayerSelection
 //
 //  Created by Rory Bain on 03/08/2017.
@@ -17,6 +17,14 @@ class CardView: UIView {
         }
     }
 
+    var didTap: ((CardView) -> Void)?
+
+    var isShowingResult = false {
+        didSet {
+            showOrHideResults()
+        }
+    }
+
     private static let pointsCornerRadius: CGFloat = 5
 
     private let nameLabel: UILabel = {
@@ -27,7 +35,7 @@ class CardView: UIView {
         return label
     }()
 
-    private lazy var button: UIButton = {
+    private let button: UIButton = {
         let button = PressableButton()
         button.backgroundColor = UIColor.black.withAlphaComponent(0.1)
         return button
@@ -42,13 +50,6 @@ class CardView: UIView {
         pointsLabel.isHidden = true
         return pointsLabel
     }()
-
-    var didTap: ((CardView) -> Void)?
-    var isShowingResult = false {
-        didSet {
-            showOrHideResults()
-        }
-    }
 
     init() {
         super.init(frame: .zero)
@@ -112,9 +113,10 @@ class CardView: UIView {
         })
     }
 
-    func setupDisplayItem() {
+    private func setupDisplayItem() {
         nameLabel.text = displayItem.name
-        pointsLabel.text = "Averages \(displayItem.points) per game"
+        let pointsText = String(format: "%.2f", displayItem.points)
+        pointsLabel.text = "Averages \(pointsText) per game"
         if let imageURL = displayItem.imageURL {
             Nuke.loadImage(with: imageURL, into: button)
         }

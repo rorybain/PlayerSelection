@@ -1,5 +1,5 @@
 //
-//  CardsState.swift
+//  CardsModels.swift
 //  PlayerSelection
 //
 //  Created by Rory Bain on 03/08/2017.
@@ -29,7 +29,7 @@ class CardGame {
     }
 
     func winLossText() -> String {
-        return "Game complete! You guess \(won) out of \(played)."
+        return "Game complete! You guessed \(won) out of \(played)."
     }
 
     func userPickedCorrectAnswer() {

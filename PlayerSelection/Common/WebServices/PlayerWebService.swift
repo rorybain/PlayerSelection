@@ -20,8 +20,10 @@ class PlayerWebService: PlayerService {
             .validate()
             .responseArray(keyPath: "players") { (response: DataResponse<[Player]>) in
                 switch response.result {
-                case .success(let players): success(players)
-                case .failure(let error): failure(error)
+                case .success(let players):
+                    success(players)
+                case .failure(let error):
+                    failure(error)
                 }
         }
     }

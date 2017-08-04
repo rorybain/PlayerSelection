@@ -1,4 +1,4 @@
-// MARK: - Mocks generated from file: PlayerSelection/Modules/Cards/Wireframe/CardsWireframe.swift at 2017-08-03 22:09:05 +0000
+// MARK: - Mocks generated from file: PlayerSelection/Modules/Cards/Wireframe/CardsWireframe.swift at 2017-08-04 16:44:57 +0000
 
 //
 //  CardsWireframe.swift
@@ -298,7 +298,7 @@ class MockCardsWireframe: CardsWireframe, Cuckoo.Mock {
 
 
 
-// MARK: - Mocks generated from file: PlayerSelection/Modules/Cards/ViewModel/CardsViewModel.swift at 2017-08-03 22:09:05 +0000
+// MARK: - Mocks generated from file: PlayerSelection/Modules/Cards/ViewModel/CardsViewModel.swift at 2017-08-04 16:44:57 +0000
 
 //
 //  CardsViewModel.swift
@@ -542,7 +542,7 @@ class MockCardsViewModel: CardsViewModel, Cuckoo.Mock {
 
 
 
-// MARK: - Mocks generated from file: PlayerSelection/Common/WebServices/PlayerWebService.swift at 2017-08-03 22:09:05 +0000
+// MARK: - Mocks generated from file: PlayerSelection/Common/WebServices/PlayerWebService.swift at 2017-08-04 16:44:57 +0000
 
 //
 //  PlayerWebService.swift
@@ -731,7 +731,7 @@ class MockPlayerWebService: PlayerWebService, Cuckoo.Mock {
 
 
 
-// MARK: - Mocks generated from file: PlayerSelection/Modules/Cards/View/CardsViewController.swift at 2017-08-03 22:09:05 +0000
+// MARK: - Mocks generated from file: PlayerSelection/Modules/Cards/View/CardsViewController.swift at 2017-08-04 16:44:57 +0000
 
 //
 //  CardsViewController.swift
